@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, g
+from flask import request, g, abort
 import rethinkdb as r
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 
@@ -14,6 +14,7 @@ def dbSetup():
     try:
         r.db_create(TODO_DB).run(connection)
         r.db(TODO_DB).table_create('users').run(connection)
+        r.db(TODO_DB).table_create('interests').run(connection)
         print('Database setup completed')
     except RqlRuntimeError:
         print('Database already exists.')
@@ -51,7 +52,7 @@ def create_user():
             r.table('users').insert(user).run(g.rdb_conn)
         except Exception as e:
             print(e)
-        return 'User created'
+        return 'User created', 201
     else:
         return 'User already exists'
 
@@ -62,10 +63,18 @@ def get_statistic():
     return 'Data for charmts'
 
 
-@app.route('/skills', methods='POST')
+@app.route('/interests', methods=['POST'])
 def data_processing():
     """Getting data into json to store in the database"""
-    pass
+    data = request.form
+    user_email = data.get('email')
+
+    if user_exists(user_email):
+        user_id = get_user_id(user_email)
+        print(data, user_id)
+        return 'interests'
+    else:
+        return 'The user is not authorized', 401
 
 # helper functions
 def user_exists(email):
@@ -74,6 +83,10 @@ def user_exists(email):
         return True
     else:
         return False
+
+def get_user_id(email):
+    user = r.table('users').filter(r.row['email'] == email).run(g.rdb_conn)
+    return user.items[0].get('id')
 
 
 if __name__ == '__main__':
