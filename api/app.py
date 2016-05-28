@@ -75,7 +75,7 @@ def data_processing():
         }
         try:
             r.table('interests').insert(interest).run(g.rdb_conn)
-            return 'interests', 201
+            return 'The record is created', 201
         except Exception as e:
             return e, 500
     else:
