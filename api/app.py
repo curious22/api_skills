@@ -42,15 +42,11 @@ def teardown_request(exception):
 
 @app.route('/registration', methods=['POST'])
 def create_user():
-    data = request.form
-    user = {
-        'username': data.get('username'),
-        'email': data.get('email')
-    }
+    data = request.get_json()
 
-    if not user_exists(user['email']):
+    if not user_exists(data['email']):
         try:
-            r.table('users').insert(user).run(g.rdb_conn)
+            r.table('users').insert(data).run(g.rdb_conn)
         except Exception as e:
             print(e)
         return 'User created', 201
