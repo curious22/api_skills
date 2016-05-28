@@ -46,15 +46,14 @@ def create_user():
         'email': data.get('email')
     }
 
-    user_in_db = r.table('users').filter(r.row['email'] == user['email']).run(g.rdb_conn)
-    if user_in_db.items:
-        return 'User already exists'
-    else:
+    if not user_exists(user['email']):
         try:
             r.table('users').insert(user).run(g.rdb_conn)
         except Exception as e:
             print(e)
         return 'User created'
+    else:
+        return 'User already exists'
 
 
 @app.route('/statistic')
@@ -67,6 +66,14 @@ def get_statistic():
 def data_processing():
     """Getting data into json to store in the database"""
     pass
+
+# helper functions
+def user_exists(email):
+    user_in_db = r.table('users').filter(r.row['email'] == email).run(g.rdb_conn)
+    if user_in_db.items:
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':
