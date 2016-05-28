@@ -69,8 +69,15 @@ def data_processing():
 
     if user_exists(user_email):
         user_id = get_user_id(user_email)
-        print(data, user_id)
-        return 'interests'
+        interest = {
+            'user_id': user_id,
+            'interests': data['interests']
+        }
+        try:
+            r.table('interests').insert(interest).run(g.rdb_conn)
+            return 'interests', 201
+        except Exception as e:
+            return e, 500
     else:
         return 'The user is not authorized', 401
 
