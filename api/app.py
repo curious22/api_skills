@@ -4,6 +4,7 @@ import rethinkdb as r
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 
 import pprint
+import json
 from configs import RDB_HOST, RDB_PORT, TODO_DB
 
 app = Flask(__name__)
@@ -66,8 +67,9 @@ def get_statistic():
 @app.route('/interests', methods=['POST'])
 def data_processing():
     """Getting data into json to store in the database"""
-    data = request.form
-    user_email = data.get('email')
+    data = request.get_json()
+    print(data)
+    user_email = data['email']
 
     if user_exists(user_email):
         user_id = get_user_id(user_email)
