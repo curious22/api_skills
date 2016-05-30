@@ -5,7 +5,7 @@ from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 
 import pprint
 import json
-from configs import RDB_HOST, RDB_PORT, TODO_DB
+from configs import RDB_HOST, RDB_PORT, TODO_DB, codes
 
 app = Flask(__name__)
 
@@ -54,9 +54,9 @@ def create_user():
         return 'User already exists'
 
 
-@app.route('/statistic')
+@app.route('/statistic', methods=['POST'])
 def get_statistic():
-    """Returns the data for the chart drawing"""
+    """Returns the interests of all users"""
     return 'Data for charmts'
 
 
@@ -64,22 +64,36 @@ def get_statistic():
 def data_processing():
     """Getting data into json to store in the database"""
     data = request.get_json()
-    print(data)
-    user_email = data['email']
+    user_id = request_verification(data)
 
-    if user_exists(user_email):
-        user_id = get_user_id(user_email)
+    if isinstance(user_id, int):
+        return codes[user_id], user_id
+    else:
         interest = {
             'user_id': user_id,
             'interests': data['interests']
         }
         try:
             r.table('interests').insert(interest).run(g.rdb_conn)
-            return 'The record is created', 201
         except Exception as e:
             return e, 500
+        else:
+            return 'The record is created', 201
+
+@app.route('/profile', methods=['POST'])
+def get_user_interests():
+    """Returns the user's interests"""
+    data = request_verification(request.get_json())
+    if isinstance(data, int):
+        return codes[data], data
     else:
-        return 'The user is not authorized', 401
+        try:
+            user_data = r.table('interests').filter(r.row['user_id'] == data).run(g.rdb_conn)
+        except Exception as e:
+            return e, 500
+        else:
+            interests = user_data.items[0].get('interests')
+            return json.dumps(interests), 200
 
 # helper functions
 def user_exists(email):
@@ -92,6 +106,16 @@ def user_exists(email):
 def get_user_id(email):
     user = r.table('users').filter(r.row['email'] == email).run(g.rdb_conn)
     return user.items[0].get('id')
+
+def request_verification(data):
+    """Checks for field email and whether there is a user in the database"""
+    if 'email' in data:
+        if user_exists(data['email']):
+            return get_user_id(data['email'])
+        else:
+            return 401
+    else:
+        return 400
 
 
 if __name__ == '__main__':
