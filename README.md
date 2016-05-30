@@ -62,4 +62,6 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
 /statistic (in progress)
 * description: _Returns the interests of all users to display on the chart_
 * method `GET`
-* Content Type: `application/json`
+* response codes:
+    * `200` Return result
+    * `500` The user is not authorized

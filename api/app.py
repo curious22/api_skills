@@ -9,6 +9,9 @@ from configs import RDB_HOST, RDB_PORT, TODO_DB, codes
 
 app = Flask(__name__)
 
+def add_to_log(*args):
+    print('\n'.join([str(arg) for arg in args]))
+
 # db setup; only run once
 def dbSetup():
     connection = r.connect(host=RDB_HOST, port=RDB_PORT)
@@ -40,18 +43,19 @@ def teardown_request(exception):
     except AttributeError:
         pass
 
+
 @app.route('/registration', methods=['POST'])
 def create_user():
     data = request.get_json()
 
-    if not user_exists(data['email']):
+    if user_exists(data['email']):
+        return 'User already exists'
+    else:
         try:
             r.table('users').insert(data).run(g.rdb_conn)
         except Exception as e:
-            print(e)
+            add_to_log('error during create user', e)
         return 'User created', 201
-    else:
-        return 'User already exists'
 
 
 @app.route('/statistics')
@@ -60,12 +64,14 @@ def get_statistic():
     try:
         data = r.table('interests').run(g.rdb_conn)
     except Exception as e:
+        add_to_log('error during get statistic', e)
         return e, 500
     else:
         results = []
         for i in data.items:
             results.append(i['interests'])
         return json.dumps(results)
+
 
 @app.route('/interests', methods=['POST'])
 def data_processing():
@@ -83,9 +89,11 @@ def data_processing():
         try:
             r.table('interests').insert(interest).run(g.rdb_conn)
         except Exception as e:
+            add_to_log(e)
             return e, 500
         else:
             return 'The record is created', 201
+
 
 @app.route('/profile', methods=['POST'])
 def get_user_interests():
