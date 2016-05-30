@@ -54,11 +54,18 @@ def create_user():
         return 'User already exists'
 
 
-@app.route('/statistic', methods=['POST'])
+@app.route('/statistics')
 def get_statistic():
     """Returns the interests of all users"""
-    return 'Data for charmts'
-
+    try:
+        data = r.table('interests').run(g.rdb_conn)
+    except Exception as e:
+        return e, 500
+    else:
+        results = []
+        for i in data.items:
+            results.append(i['interests'])
+        return json.dumps(results)
 
 @app.route('/interests', methods=['POST'])
 def data_processing():
@@ -120,3 +127,5 @@ def request_verification(data):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    # TODO add logging to a file
+    # TODO remove 200, 500
