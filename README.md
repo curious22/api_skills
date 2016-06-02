@@ -1,6 +1,11 @@
 # ZAPI
 API service to store data about skills (Python 3.5, Flask, RethinkDB)
 
+## Navigation
+1. [Requirements](#requirements)
+2. [Endpoints](#endpoints)
+3. [Queries to the database from the UI](#queries-to-the-database-from-the-ui)
+
 ## Установка
 ### Requirements
 * Python 3.5
@@ -23,7 +28,7 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
 * Fields:
     * email `*` _string_
     * username `*` _string_
-* example: `{'username': 'curious', 'email': 'email@gmail.com'}`
+* example: `{"username": "curious", "email": "email@gmail.com"}`
 * record in DB:
 ```
 {
@@ -57,11 +62,30 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
 ```
 * response codes:
     * `201` The record is created
-    * `401` The user is not authorized
+    * `401` User is not in the database
 
-/statistic (in progress)
+/statistics (in progress)
 * description: _Returns the interests of all users to display on the chart_
 * method `GET`
+* response data: _string_ `[{"JS": [3, 5], "AngularJS": [3, 5]}, {"JS": [1, 2], "Python": [3, 5]}, {"Lisp": [1, 2], "C++": [3, 5]}]`
 * response codes:
     * `200` Return result
-    * `500` The user is not authorized
+    * `500` Error getting data from database
+
+/profile
+* description: _Returns the user's interest_
+* method `POST`
+* Content Type: `application/json`
+* Fields:
+    * email `*` _string_
+* example: `{"email": "email@gmail.com"}`
+* response data: _string_ `{"JS": [1, 2], "Python": [3, 5]}`
+* response codes:
+    * `200` Return result
+    * `401` User is not in the database
+    * `500` Error getting data from database
+
+## Queries to the database from the UI
+![Data Explorer](http://joxi.ru/DmBLO8wsNKBJ3A)
+* `r.db('skills').table('users')` Get all users
+* `r.db('skills').table('interests')` Get all interests
