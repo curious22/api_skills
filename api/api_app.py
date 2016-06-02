@@ -3,14 +3,15 @@ from flask import request, g, abort
 import rethinkdb as r
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 
-import pprint
 import json
 from configs import RDB_HOST, RDB_PORT, TODO_DB, codes
 
-app = Flask(__name__)
+application = Flask(__name__)
+
 
 def add_to_log(*args):
     print('\n'.join([str(arg) for arg in args]))
+
 
 # db setup; only run once
 def dbSetup():
@@ -27,7 +28,7 @@ def dbSetup():
 dbSetup()
 
 # open connection before each request
-@app.before_request
+@application.before_request
 def before_request():
     try:
         g.rdb_conn = r.connect(host=RDB_HOST, port=RDB_PORT, db=TODO_DB)
@@ -36,7 +37,7 @@ def before_request():
 
 
 # close the connection after each request
-@app.teardown_request
+@application.teardown_request
 def teardown_request(exception):
     try:
         g.rdb_conn.close()
@@ -44,7 +45,7 @@ def teardown_request(exception):
         pass
 
 
-@app.route('/registration', methods=['POST'])
+@application.route('/registration', methods=['POST'])
 def create_user():
     data = request.get_json()
 
@@ -58,7 +59,7 @@ def create_user():
         return 'User created', 201
 
 
-@app.route('/statistics')
+@application.route('/statistics')
 def get_statistic():
     """Returns the interests of all users"""
     try:
@@ -73,7 +74,7 @@ def get_statistic():
         return json.dumps(results)
 
 
-@app.route('/interests', methods=['POST'])
+@application.route('/interests', methods=['POST'])
 def data_processing():
     """Getting data into json to store in the database"""
     data = request.get_json()
@@ -95,7 +96,7 @@ def data_processing():
             return 'The record is created', 201
 
 
-@app.route('/profile', methods=['POST'])
+@application.route('/profile', methods=['POST'])
 def get_user_interests():
     """Returns the user's interests"""
     data = request_verification(request.get_json())
@@ -110,6 +111,7 @@ def get_user_interests():
             interests = user_data.items[0].get('interests')
             return json.dumps(interests), 200
 
+
 # helper functions
 def user_exists(email):
     user_in_db = r.table('users').filter(r.row['email'] == email).run(g.rdb_conn)
@@ -118,9 +120,11 @@ def user_exists(email):
     else:
         return False
 
+
 def get_user_id(email):
     user = r.table('users').filter(r.row['email'] == email).run(g.rdb_conn)
     return user.items[0].get('id')
+
 
 def request_verification(data):
     """Checks for field email and whether there is a user in the database"""
@@ -134,6 +138,6 @@ def request_verification(data):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
     # TODO add logging to a file
     # TODO remove 200, 500
