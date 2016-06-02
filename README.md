@@ -86,6 +86,6 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
     * `500` Error getting data from database
 
 ## Queries to the database from the UI
-![Data Explorer](http://joxi.ru/DmBLO8wsNKBJ3A)
+![Data Explorer](https://snag.gy/sPTCVS.jpg)
 * `r.db('skills').table('users')` Get all users
 * `r.db('skills').table('interests')` Get all interests
