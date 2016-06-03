@@ -78,7 +78,7 @@ var htmlSelects = '';
 $.each(technologi, function(ind, item){
 	var htmlInterestSelects = '<div class="select"><p>Уровень интереса</p><select id="int'+item.id+'">'+ getInterestOption()+'</select></div>';
 	var htmlLevelSelects = '<div class="select"><p>Уровень знаний</p><select id="lvl'+item.id+'">'+ getLevelOption()+'</select></div>';
-	htmlSelects += '<div class="tech-name col-md-6" data-system-name=""><p>'+ item.name +'</p>' + htmlInterestSelects + htmlLevelSelects +'</div>';
+	htmlSelects += '<div class="tech-name col-md-6 col-sm-6 col-xs-12" data-system-name=""><p>'+ item.name +'</p>' + htmlInterestSelects + htmlLevelSelects +'</div>';
 });
 
 function getInterestOption(){
@@ -115,7 +115,7 @@ function createUser(){
 
 	var data = {"username": user.name, "email": user.mail}
 	
-	//console.log(JSON.stringify(data));
+	console.log(JSON.stringify(data));
 	
 	$.ajax({
 		type: "POST",
@@ -132,7 +132,7 @@ function sendData(respons){
 
 	var data = {"email": user.mail, "interests": result};
 	
-	//console.log(JSON.stringify(data));
+	console.log(JSON.stringify(data));
 
 	function success(data) {
 		alert( "Data Loaded: " + data );

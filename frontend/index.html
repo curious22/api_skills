@@ -60,20 +60,31 @@
 			</div>
 		</div>
 	</section>
-	<div class="row" id="select-block">
-		<div id="user-block">
-			<label for="email">Enter your e-mail</label>
-			<input type="email" name="email" id="email">
-			<label for="email">Your name</label>
-			<input type="text" name="name" id="name">
+
+	<div id="select-block">
+
+	<div class="container">
+		<div class="row">
+			<div id="user-block">
+				<div class="col-md-6">
+					<label for="email">Your e-mail:</label>
+					<input type="email" name="email" id="email" placeholder="e-mail">
+				</div>
+				<div class="col-md-6">
+					<label for="email">Your name:</label>
+					<input type="text" name="name" id="name" placeholder="name">
+				</div>
+			</div>
 		</div>
+	</div>
+
 		<div id="selects"></div>
 		
 		<section class="btn">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<button class="add-interest" id="send">Send result</button>
+						<button class="add-interest send" id="send" >Send result</button>
 					</div>
 				</div>
 			</div>
