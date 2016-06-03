@@ -14,7 +14,7 @@ interests = {
 }
 
 # json examples
-{'username': 'curious', 'email': 'email@gmail.com'} # users
+{"username": "curious", "email": "email@gmail.com"} # users
 {"email": "email@gmail.com", "interests": {"Python": [3, 5], "JS": [1, 2]}} # interests
 
 # records in DB
