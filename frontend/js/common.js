@@ -105,7 +105,7 @@ $("#selects").html(htmlSelects);
 
 
 $( "#send" ).click(function() {
-	sendData();
+	createUser();
 });
 
 var user = {};
@@ -114,6 +114,8 @@ function createUser(){
 	user = getUser();
 
 	var data = {"username": user.name, "email": user.mail}
+	
+	//console.log(JSON.stringify(data));
 	
 	$.ajax({
 		type: "POST",
@@ -130,7 +132,7 @@ function sendData(respons){
 
 	var data = {"email": user.mail, "interests": result};
 	
-	//JSON.stringify(result);
+	//console.log(JSON.stringify(data));
 
 	function success(data) {
 		alert( "Data Loaded: " + data );
@@ -180,8 +182,8 @@ function getResult(){
 
 // create User
 function getUser(){
-	var email = $('#user-email').text();
-	var name = $('#user-name').text();
+	var email = $('#email').val();
+	var name = $('#name').val();
 	return { mail: email || "email@gmail.com", name: name || "no-name" };
 }
 
