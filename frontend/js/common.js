@@ -1,74 +1,66 @@
-$(function () {
-	$('#container').highcharts({
-		title: {
-			text: 'Monthly Average Temperature',
-			x: -20 //center
-		},
-		subtitle: {
-			text: 'Source: WorldClimate.com',
-			x: -20
-		},
-		xAxis: {
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-				'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-		},
-		yAxis: {
-			title: {
-				text: 'Temperature (°C)'
-			},
-			plotLines: [{
-				value: 0,
-				width: 1,
-				color: '#808080'
-			}]
-		},
-		tooltip: {
-			valueSuffix: '°C'
-		},
-		legend: {
-			layout: 'vertical',
-			align: 'right',
-			verticalAlign: 'middle',
-			borderWidth: 0
-		},
-		series: [{
-			name: 'Tokyo',
-			data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-		}, {
-			name: 'New York',
-			data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-		}, {
-			name: 'Berlin',
-			data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-		}, {
-			name: 'London',
-			data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-		}]
-	});
+new Chartist.Line('.ct-chart-1', {
+  labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  series: [
+    [10, 9, 7, 8, 5],
+    [2, 1, 3.5, 7, 3],
+    [1, 3, 4, 5, 6]
+  ]
+}, {
+  fullWidth: true,
+  chartPadding: {
+    right: 40
+  }
 });
+new Chartist.Line('.ct-chart-2', {
+  labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  series: [
+    [3, 9, 7, 2, 5],
+    [2, 1, 3.5, 7, 3],
+    [1, 3, 4, 5, 6]
+  ]
+}, {
+  fullWidth: true,
+  chartPadding: {
+    right: 40
+  }
+});
+new Chartist.Line('.ct-chart-3', {
+  labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  series: [
+    [5, 9, 7, 8, 5],
+    [2, 1, 3.5, 7, 3],
+    [1, 3, 4, 5, 6]
+  ]
+}, {
+  fullWidth: true,
+  chartPadding: {
+    right: 40
+  }
+});
+
 
 // create list
 var technologi = [
-		{ id: 1, name: "Java" },
-		{ id: 2, name: "C#" },
-		{ id: 3, name: "Python" },
-		{ id: 4, name: "PHP" },
-		{ id: 5, name: "javascript" },
-		{ id: 6, name: "C++" },
-		{ id: 7, name: "Objective-C" },
-		{ id: 8, name: "Swift" },
-		{ id: 9, name: "Ruby" },
-		{ id: 10, name: "Perl" },
-		{ id: 11, name: "CSS" },
-		{ id: 12, name: "HTML" },
-		{ id: 13, name: "AngularJS" },
-		{ id: 14, name: "NodeJS" },
-		{ id: 15, name: "Backbone" },
-		{ id: 16, name: "reactJS" },
-		{ id: 17, name: "Haskell" },
-		{ id: 18, name: "SQL" },
-		{ id: 19, name: "GIT" },
-		{ id: 20, name: "ASP.NET" }
+		{ id: 1, type: "front", name: "Java" },
+		{ id: 2, type: "back", name: "C#" },
+		{ id: 3, type: "back", name: "Python" },
+		{ id: 4, type: "back", name: "PHP" },
+		{ id: 5, type: "front", name: "javascript" },
+		{ id: 6, type: "back", name: "C++" },
+		{ id: 7, type: "back", name: "Objective-C" },
+		{ id: 8, type: "back", name: "Swift" },
+		{ id: 9, type: "back", name: "Ruby" },
+		{ id: 10, type: "back", name: "Perl" },
+		{ id: 11, type: "front", name: "CSS" },
+		{ id: 12, type: "front", name: "HTML" },
+		{ id: 13, type: "front", name: "AngularJS" },
+		{ id: 14, type: "back", name: "NodeJS" },
+		{ id: 15, type: "front", name: "Backbone" },
+		{ id: 16, type: "front", name: "reactJS" },
+		{ id: 17, type: "front", name: "Haskell" },
+		{ id: 18, type: "back", name: "SQL" },
+		{ id: 19, type: "front", name: "GIT" },
+		{ id: 20, type: "front", name: "ASP.NET" }
 		
 
 	];
@@ -76,24 +68,26 @@ var technologi = [
 var htmlSelects = '';
 
 $.each(technologi, function(ind, item){
-	var htmlInterestSelects = '<div class="select"><p>Уровень интереса</p><select id="int'+item.id+'">'+ getInterestOption()+'</select></div>';
-	var htmlLevelSelects = '<div class="select"><p>Уровень знаний</p><select id="lvl'+item.id+'">'+ getLevelOption()+'</select></div>';
-	htmlSelects += '<div class="tech-name col-md-6" data-system-name=""><p>'+ item.name +'</p>' + htmlInterestSelects + htmlLevelSelects +'</div>';
+	var htmlInterestSelects = '<div class="select"><select id="int'+item.id+'">'+ getInterestOption()+'</select></div>';
+	var htmlLevelSelects = '<div class="select"><select id="lvl'+item.id+'">'+ getLevelOption()+'</select></div>';
+	htmlSelects += '<div class="tech-name col-md-6 col-sm-6 col-xs-12" data-system-name=""><p>'+ item.name +'</p>' + htmlInterestSelects + htmlLevelSelects +'</div>';
 });
 
 function getInterestOption(){
-	var options = "<option value='1'>Не интересно</option>" +
+	var options = "<option value='0' selected='selected'>Выбрать интерес</option>" +
+				"<option value='1'>Не интересно</option>" +
 				"<option value='2'>Небольшой интерес</option>" +
-				"<option value='3' selected='selected'>Средний интерес</option>" +
+				"<option value='3'>Средний интерес</option>" +
 				"<option value='4'>Очень интересно</option>" +
 				"<option value='5'>Максимально интересно</option>";
 		return options;
 }
 
 function getLevelOption(){
-	var options = "<option value='1'>Не владею</option>" +
+	var options = "<option value='0' selected='selected'>Выбрать знания</option>" +
+				"<option value='1'>Не владею</option>" +
 				"<option value='2'>Слабые знания</option>" +
-				"<option value='3' selected='selected'>Пробовал использовать</option>" +
+				"<option value='3'>Пробовал использовать</option>" +
 				"<option value='4'>Уверенно владею</option>" +
 				"<option value='5'>Senior</option>";
 		return options;
@@ -202,3 +196,50 @@ function swithBlocks() {
 		// Animation complete.
 	});
 }
+
+// tabs
+
+// $(document).ready(function  () {
+// 	$("a#tab1").click(function  (e) {
+// 		$(this).toggleClass("active");
+// 		$(".tech-name").toggle();
+// 	});
+// });
+// function showBlock () {
+// 	document.getElementById("tech-name").style.display = "";
+// };
+
+// function hideBlock () {
+// 	document.getElementById("tech-name").style.display = "none";
+// };
+
+// $( ".tech-name" ).hide();
+
+// $( "#tab1" ).click(swithTabs);
+
+// function swithTabs() {
+// 	$( ".tech-name" ).toggle( "hide", function() {
+
+// 	});
+// };
+
+// (function  (&) {
+// 	JQuery.fn.lightTabs = function  (options) {
+// 		var createTabs = function  () {
+// 			tabs = this;
+// 			i = 0;
+
+// 			showPage = function  (i) {
+// 				$(tabs).children("tech-name").hide();
+// 			}
+// 		}
+// 	}
+// });
+
+// $(function  () {
+// 	$("ul li a").click(function  () {
+// 		$(this)
+// 			.sibling().removeClass("active").end()
+// 			.next("tech-name").andSelf().addClass("active");
+// 	});
+// });

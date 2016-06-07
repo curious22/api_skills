@@ -9,6 +9,8 @@
 @media only screen and (max-width : 992px) {
 	.bottom-line p {
 		text-align: center;
+		font-size: 17px;
+		margin-left: 30px;
 
 	}
 	.bottom-line {
@@ -20,11 +22,45 @@
 		margin: auto;
 		margin-top: 15px;
 	}
+	.select > select {
+		width: 150px;
+		font-size: 13px;
+	}
+	.send {
+		margin-top: 40px;
+	}
 }
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
-
+	.logo {
+		display: block;
+		width: 211px;
+		margin: auto;
+		margin-top: 10px;
+	}
+	.bottom-line {
+		height: 200px;
+	}
+	.bottom-line  p {
+		display: block;
+		width: 211px;
+		font-size: 15px;
+		margin: auto;
+		margin-top: 20px;
+	}
+	.bottom-line button {
+		display: block;
+		margin: auto;
+		float: none;
+		margin-top: 20px;
+	}
+	.select {
+		width: 100%;
+	}
+	.send {
+		margin-top: 40px;
+	}
 }
 
 /* Extra Small Devices, Phones */
@@ -34,10 +70,6 @@
 		width: 211px;
 		margin: auto;
 		margin-top: 10px;
-
-	}
-	.bottom-line {
-		height: 120px;
 	}
 	.sel-you-know p {
 		font-size: 15px;
@@ -45,11 +77,59 @@
 	.btn {
 		margin-bottom: 100px;
 	}
+	.bottom-line {
+		height: 200px;
+	}
+	.bottom-line  p {
+		display: block;
+		width: 211px;
+		font-size: 15px;
+		margin: auto;
+		margin-top: 20px;
+	}
+	.bottom-line button {
+		display: block;
+		margin: auto;
+		float: none;
+		margin-top: 20px;
+	}
+	#user-block input {
+		width: 100%;
+		margin-top: 10px;
+		margin-left: 0;
+	}
+	.send {
+		margin-top: 40px;
+	}
 }
 
 /* Custom, iPhone Retina */
 @media only screen and (max-width : 320px) {
-	
+	.bottom-line {
+		height: 200px;
+	}
+	.bottom-line p {
+		text-align: center;
+	}
+	.bottom-line  p {
+		display: block;
+		width: 211px;
+		font-size: 15px;
+		margin: auto;
+		margin-top: 20px;
+	}
+	.bottom-line button {
+		display: block;
+		margin: auto;
+		float: none;
+		margin-top: 20px;
+	}
+	.send {
+		display: block;
+		float: none;
+		height: 40px;
+		margin-top: 40px;
+	}
 }
 
 
