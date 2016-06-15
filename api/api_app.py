@@ -12,12 +12,9 @@ application = Flask(__name__)
 FORMAT = u'[%(asctime)s] %(levelname)-8s %(message)s'
 logging.basicConfig(format=FORMAT, filename='error.log', level=logging.DEBUG)
 
-def add_to_log(*args):
-    print('\n'.join([str(arg) for arg in args]))
-
 
 # db setup; only run once
-def dbSetup():
+def db_setup():
     connection = r.connect(host=RDB_HOST, port=RDB_PORT)
     try:
         r.db_create(TODO_DB).run(connection)
@@ -28,7 +25,7 @@ def dbSetup():
         logging.info('Database already exists')
     finally:
         connection.close()
-dbSetup()
+db_setup()
 
 
 # open connection before each request
