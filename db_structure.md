@@ -71,7 +71,7 @@
 
 ## Technologies
 | ID | Type | Name |
-|----|------|------|
+|:----:|:------:|:------:|
 | 1  |front | Java |
 | 2  |back | C# |
 | 3  |back | Python |
