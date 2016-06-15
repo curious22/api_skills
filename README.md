@@ -48,16 +48,24 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
 * Fields:
     * email `*` _string_
     * interests `*` _object_
-* example: `{"email": "email@gmail.com", "interests": {"Python": [3, 5], "JS": [1, 2]}}`
+* example: `{"email":"mar@gmail.com","interests":[{"tech_id":1,"interest":1,"level":4},{"tech_id":2,"interest":3,"level":2}]}`
 * record in DB:
 ```
 {
-  "id": "6b33296c-b7ff-4cc1-9d7d-a8a849962004",
-  "interests": {
-    "JS": [1, 2],
-    "Python": [3, 5]
-  },
-  "user_id": "c0ad9ad1-b6fe-4cd7-aa32-cd0e08e2fb15"
+  "id": "6c1b5c97-f018-450f-8d94-52fea13e2a24",
+  "interests": [
+    {
+      "interest": 1,
+      "level": 4,
+      "tech_id": 1
+    },
+    {
+      "interest": 3,
+      "level": 2,
+      "tech_id": 2
+    }
+  ],
+  "user_id": "2853625f-4595-42a5-b48a-c2e2452fbe9e"
 }
 ```
 * response codes:
@@ -67,7 +75,7 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
 /statistics (in progress)
 * description: _Returns the interests of all users to display on the chart_
 * method `GET`
-* response data: _string_ `[{"JS": [3, 5], "AngularJS": [3, 5]}, {"JS": [1, 2], "Python": [3, 5]}, {"Lisp": [1, 2], "C++": [3, 5]}]`
+* response data: _string_ `[{"1":{"level":4,"interest":1},"2":{"level":2,"interest":3}},{"2":{"level":2,"interest":3},"4":{"level":3,"interest":5}}]`
 * response codes:
     * `200` Return result
     * `500` Error getting data from database

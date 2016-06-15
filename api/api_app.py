@@ -76,7 +76,7 @@ def get_statistic():
     else:
         results = []
         for i in data.items:
-            results.append(i['interests'])
+            results.append(get_formatted_interests(i['interests']))
         return json.dumps(results)
 
 
@@ -146,6 +146,23 @@ def request_verification(data):
             return 401
     else:
         return 400
+
+
+def get_formatted_interests(user_data):
+    """
+    Returns a formatted interests
+    key - tech_id
+    """
+    user_interest = {}
+
+    for item in user_data:
+        interest = {
+            'interest': item['interest'],
+            'level': item['level']
+        }
+        user_interest[item['tech_id']] = interest
+
+    return user_interest
 
 
 if __name__ == '__main__':
