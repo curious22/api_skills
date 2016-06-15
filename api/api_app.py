@@ -4,10 +4,13 @@ import rethinkdb as r
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 
 import json
+import logging
 from configs import RDB_HOST, RDB_PORT, TODO_DB, codes
 
 application = Flask(__name__)
 
+FORMAT = u'[%(asctime)s] %(levelname)-8s %(message)s'
+logging.basicConfig(format=FORMAT, filename='error.log', level=logging.DEBUG)
 
 def add_to_log(*args):
     print('\n'.join([str(arg) for arg in args]))
@@ -20,12 +23,13 @@ def dbSetup():
         r.db_create(TODO_DB).run(connection)
         r.db(TODO_DB).table_create('users').run(connection)
         r.db(TODO_DB).table_create('interests').run(connection)
-        print('Database setup completed')
+        logging.info('Database setup completed')
     except RqlRuntimeError:
-        print('Database already exists.')
+        logging.info('Database already exists')
     finally:
         connection.close()
 dbSetup()
+
 
 # open connection before each request
 @application.before_request
@@ -33,6 +37,8 @@ def before_request():
     try:
         g.rdb_conn = r.connect(host=RDB_HOST, port=RDB_PORT, db=TODO_DB)
     except RqlDriverError:
+        logging.info('Database connection could be established',
+                     exc_info=True)
         abort(503, "Database connection could be established.")
 
 
@@ -54,8 +60,10 @@ def create_user():
     else:
         try:
             r.table('users').insert(data).run(g.rdb_conn)
-        except Exception as e:
-            add_to_log('error during create user', e)
+        except Exception as error:
+            logging.error('Error when creating user',
+                          exc_info=True)
+            return error
         return 'User created', 201
 
 
@@ -64,9 +72,10 @@ def get_statistic():
     """Returns the interests of all users"""
     try:
         data = r.table('interests').run(g.rdb_conn)
-    except Exception as e:
-        add_to_log('error during get statistic', e)
-        return e, 500
+    except Exception as error:
+        logging.error('Error while retrieving statistics',
+                      exc_info=True)
+        return error
     else:
         results = []
         for i in data.items:
@@ -89,9 +98,10 @@ def data_processing():
         }
         try:
             r.table('interests').insert(interest).run(g.rdb_conn)
-        except Exception as e:
-            add_to_log(e)
-            return e, 500
+        except Exception as error:
+            logging.error('Error when creating a record in the database',
+                          exc_info=True)
+            return error
         else:
             return 'The record is created', 201
 
@@ -104,9 +114,12 @@ def get_user_interests():
         return codes[data], data
     else:
         try:
-            user_data = r.table('interests').filter(r.row['user_id'] == data).run(g.rdb_conn)
-        except Exception as e:
-            return e, 500
+            user_data = r.table('interests').\
+                filter(r.row['user_id'] == data).run(g.rdb_conn)
+        except Exception as error:
+            logging.error('Error getting profile',
+                          exc_info=True)
+            return error
         else:
             interests = user_data.items[0].get('interests')
             return json.dumps(interests), 200
@@ -114,7 +127,8 @@ def get_user_interests():
 
 # helper functions
 def user_exists(email):
-    user_in_db = r.table('users').filter(r.row['email'] == email).run(g.rdb_conn)
+    user_in_db = r.table('users').\
+        filter(r.row['email'] == email).run(g.rdb_conn)
     if user_in_db.items:
         return True
     else:
@@ -139,5 +153,3 @@ def request_verification(data):
 
 if __name__ == '__main__':
     application.run(debug=True)
-    # TODO add logging to a file
-    # TODO remove 200, 500
