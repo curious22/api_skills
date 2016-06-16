@@ -93,6 +93,19 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
     * `401` User is not in the database
     * `500` Error getting data from database
 
+/updating_interest
+* description: _Updates an existing record_
+* method `POST`
+* Content Type: `application/json`
+* Fields:
+    * email `*` _string_
+    * interests `*` _object_
+* example: `{"email":"mar@gmail.com","interests":[{"tech_id":4,"interest":3,"level":2}]}`
+* response codes:
+    * `200` The record updated successfully
+    * `400` The record does not exist
+    * `500` The record is not updated
+
 ## Queries to the database from the UI
 ![Data Explorer](https://snag.gy/sPTCVS.jpg)
 * `r.db('skills').table('users')` Get all users
