@@ -74,9 +74,9 @@ $.each(technologi, function(ind, item){
 });
 
 function getInterestOption(){
-	var options = "<option value='0' selected='selected'>Выбрать интерес</option>" +
+	var options = "<option value='0'>Выбрать интерес</option>" +
 				"<option value='1'>Не интересно</option>" +
-				"<option value='2'>Небольшой интерес</option>" +
+				"<option value='2' selected='selected'>Небольшой интерес</option>" +
 				"<option value='3'>Средний интерес</option>" +
 				"<option value='4'>Очень интересно</option>" +
 				"<option value='5'>Максимально интересно</option>";
@@ -84,8 +84,8 @@ function getInterestOption(){
 }
 
 function getLevelOption(){
-	var options = "<option value='0' selected='selected'>Выбрать знания</option>" +
-				"<option value='1'>Не владею</option>" +
+	var options = "<option value='0'>Выбрать знания</option>" +
+				"<option value='1' selected='selected'>Не владею</option>" +
 				"<option value='2'>Слабые знания</option>" +
 				"<option value='3'>Пробовал использовать</option>" +
 				"<option value='4'>Уверенно владею</option>" +
@@ -114,7 +114,7 @@ function createUser(){
 
 	$.ajax({
 		type: "POST",
-		url: "host+/registration",
+		url: host+"/registration",
 		data: data,
 		success: sendData,
 		dataType: "application/json"
