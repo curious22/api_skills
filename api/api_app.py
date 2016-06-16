@@ -88,6 +88,8 @@ def data_processing():
 
     if isinstance(user_id, int):
         return codes[user_id], user_id
+    elif interests_exists(user_id):
+        return 'Entry already exists', 400
     else:
         interest = {
             'user_id': user_id,
@@ -120,6 +122,21 @@ def get_user_interests():
         else:
             interests = user_data.items[0].get('interests')
             return json.dumps(interests), 200
+
+
+@application.route('/updating_interest', methods=['POST'])
+def updating():
+    """Updates an existing record"""
+    data = request.get_json()
+    user_id = request_verification(data)
+
+    if interests_exists(user_id):
+        if updating_interests(user_id, data['interests']):
+            return 'The record updated successfully'
+        else:
+            return 'The record is not updated', 500
+    else:
+        return 'The record does not exist', 400
 
 
 # helper functions
@@ -163,6 +180,29 @@ def get_formatted_interests(user_data):
         user_interest[item['tech_id']] = interest
 
     return user_interest
+
+
+def interests_exists(user_id):
+    data = r.table('interests').filter(r.row['user_id'] == user_id).run(g.rdb_conn)
+    if data.items:
+        return True
+    else:
+        return False
+
+
+def updating_interests(user_id, interests):
+    """
+    Updates interests
+    In case of success - True, else - False
+    """
+    try:
+        r.table('interests').filter(r.row['user_id'] == user_id).\
+            update({'interests': interests}).run(g.rdb_conn)
+    except Exception as error:
+        logging.error('Error during update of interest', exc_info=True)
+        return False
+    else:
+        return True
 
 
 if __name__ == '__main__':
