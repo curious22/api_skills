@@ -104,6 +104,8 @@ $( "#send" ).click(function() {
 
 var user = {};
 var host = "http://107.170.116.24";
+var testUser = {"username": "Test", "email": "user1@mail.com"};
+var testInterest = {"email":"user1@mail.com","interests":[{"tech_id":5,"interest":1,"level":4}, {"tech_id":7,"interest":1,"level":4}, {"tech_id":6,"interest":1,"level":4}]};
 
 function createUser(){
 	user = getUser();
@@ -115,7 +117,7 @@ function createUser(){
 	$.ajax({
 		type: "POST",
 		url: host+"/registration",
-		data: data,
+		data: testUser,
 		success: sendData,
 		dataType: "application/json"
 	});
@@ -136,7 +138,7 @@ function sendData(respons){
 	$.ajax({
 		type: "POST",
 		url: host+"/interests",
-		data: data,
+		data: testInterest,
 		success: success,
 		dataType: "application/json"
 	});
