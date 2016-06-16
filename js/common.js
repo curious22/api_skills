@@ -61,7 +61,7 @@ var technologi = [
 		{ id: 18, type: "back", name: "SQL" },
 		{ id: 19, type: "front", name: "GIT" },
 		{ id: 20, type: "front", name: "ASP.NET" }
-		
+
 
 	];
 
@@ -103,17 +103,18 @@ $( "#send" ).click(function() {
 });
 
 var user = {};
+var host = "http://107.170.116.24";
 
 function createUser(){
 	user = getUser();
 
 	var data = {"username": user.name, "email": user.mail}
-	
+
 	//console.log(JSON.stringify(data));
-	
+
 	$.ajax({
 		type: "POST",
-		url: "/registration",
+		url: "host+/registration",
 		data: data,
 		success: sendData,
 		dataType: "application/json"
@@ -125,7 +126,7 @@ function sendData(respons){
 	var result = getResult();
 
 	var data = {"email": user.mail, "interests": result};
-	
+
 	//console.log(JSON.stringify(data));
 
 	function success(data) {
@@ -134,7 +135,7 @@ function sendData(respons){
 
 	$.ajax({
 		type: "POST",
-		url: "/interests",
+		url: host+"/interests",
 		data: data,
 		success: success,
 		dataType: "application/json"
@@ -149,13 +150,13 @@ function getResult(){
 	$("select").each(function(i, item){
 		var id = parseInt(item.id.slice(3));
 		var type = item.id.slice(0, 3);
-		
+
 		var obj = {};
 
 		if(typeof(result[id]) == "object"){
 			obj = result[id];
 		}
-		
+
 		if(type === "lvl"){
 			obj.tech_id = id;
 			obj.level = parseInt(item.value);
@@ -172,7 +173,7 @@ function getResult(){
 }
 
 
-// parse data 
+// parse data
 
 // create User
 function getUser(){
@@ -183,14 +184,15 @@ function getUser(){
 
 // create item
 
-// send to server 
+// send to server
 $( "#select-block" ).hide();
-// show result 
+// show result
 $( "#switch" ).click(swithBlocks);
 
 function swithBlocks() {
 	$( "#graphs" ).toggle( "slow", function() {
 		// Animation complete.
+
 	});
 	$( "#select-block" ).toggle( "hide", function() {
 		// Animation complete.
