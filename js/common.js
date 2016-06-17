@@ -117,6 +117,7 @@ function createUser(){
 	$.ajax({
 		type: "POST",
 		url: host+"/registration",
+    crossDomain: true,
 		data: testUser,
 		success: sendData,
 		dataType: "application/json"
@@ -138,6 +139,7 @@ function sendData(respons){
 	$.ajax({
 		type: "POST",
 		url: host+"/interests",
+    crossDomain: true,
 		data: testInterest,
 		success: success,
 		dataType: "application/json"
