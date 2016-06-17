@@ -118,7 +118,7 @@ function createUser(){
       url: "http://107.170.116.24/registration",
       crossDomain: true,
       data: testUser,
-      dataType: 'json',
+      dataType: 'application/json',
       success: sendData,
       error: function (responseData, textStatus, errorThrown) {
           alert('POST failed.');
@@ -144,7 +144,7 @@ function sendData(respons){
     crossDomain: true,
 		data: testInterest,
 		success: success,
-		dataType: "json"
+		dataType: "application/json"
 	});
 
 	swithBlocks();
