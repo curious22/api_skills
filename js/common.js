@@ -113,15 +113,17 @@ function createUser(){
 	var data = {"username": user.name, "email": user.mail}
 
 	//console.log(JSON.stringify(data));
-
-	$.ajax({
-		type: "POST",
-		url: host+"/registration",
-    crossDomain: true,
-		data: testUser,
-		success: sendData,
-		dataType: "application/json"
-	});
+  $.ajax({
+      type: 'POST',
+      url: "http://107.170.116.24/registration",
+      crossDomain: true,
+      data: testUser,
+      dataType: 'json',
+      success: sendData,
+      error: function (responseData, textStatus, errorThrown) {
+          alert('POST failed.');
+      }
+  });
 }
 
 function sendData(respons){
@@ -138,11 +140,11 @@ function sendData(respons){
 
 	$.ajax({
 		type: "POST",
-		url: host+"/interests",
+		url: "http://107.170.116.24/interests",
     crossDomain: true,
 		data: testInterest,
 		success: success,
-		dataType: "application/json"
+		dataType: "json"
 	});
 
 	swithBlocks();
