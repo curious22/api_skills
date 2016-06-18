@@ -102,7 +102,6 @@ $("#getStat").click(function () {
       type: 'GET',
       url: "http://107.170.116.24/statistics",
       crossDomain: true,
-      data: testUser,
       dataType: 'application/json',
       success: function (responseData, textStatus, errorThrown) {
           alert('Get ok.');
