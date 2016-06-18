@@ -98,17 +98,19 @@ $("#selects").html(htmlSelects);
 // get data from view
 
 $("#getStat").click(function () {
-  var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
-  var xhr = new XHR();
-  // (2) запрос на другой домен :)
-  xhr.open('GET', 'http://107.170.116.24/statistics', true);
-  xhr.onload = function() {
-    alert( this.responseText );
-  }
-  xhr.onerror = function() {
-    alert( 'Ошибка ' + this.status );
-  }
-  xhr.send();
+  $.ajax({
+      type: 'GET',
+      url: "http://107.170.116.24/statistics",
+      crossDomain: true,
+      data: testUser,
+      dataType: 'application/json',
+      success: function (responseData, textStatus, errorThrown) {
+          alert('Get ok.');
+      },
+      error: function (responseData, textStatus, errorThrown) {
+          alert('Get failed.');
+      }
+  });
 });
 
 $( "#send" ).click(function() {
