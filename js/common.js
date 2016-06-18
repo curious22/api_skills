@@ -101,7 +101,7 @@ $("#getStat").click(function () {
   var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
   var xhr = new XHR();
   // (2) запрос на другой домен :)
-  xhr.open('GET', '107.170.116.24/statistics', true);
+  xhr.open('GET', 'http://107.170.116.24/statistics', true);
   xhr.onload = function() {
     alert( this.responseText );
   }
