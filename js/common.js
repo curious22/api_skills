@@ -97,6 +97,19 @@ $("#selects").html(htmlSelects);
 
 // get data from view
 
+$("#getStat").click(function () {
+  var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
+  var xhr = new XHR();
+  // (2) запрос на другой домен :)
+  xhr.open('GET', '107.170.116.24/statistics', true);
+  xhr.onload = function() {
+    alert( this.responseText );
+  }
+  xhr.onerror = function() {
+    alert( 'Ошибка ' + this.status );
+  }
+  xhr.send();
+});
 
 $( "#send" ).click(function() {
 	createUser();
