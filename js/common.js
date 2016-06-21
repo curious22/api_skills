@@ -102,6 +102,22 @@ $( "#send" ).click(function() {
 	createUser();
 });
 
+$( "#getStat" ).click(function() {
+  $.ajax({
+      type: 'GET',
+      url: "http://107.170.116.24/statistics",
+      crossDomain: true,
+      headers: {"Upgrade-Insecure-Requests":"1"},
+      data: testUser,
+      dataType: 'application/json',
+      success: sendData,
+      error: function (responseData, textStatus, errorThrown) {
+          console.log('POST failed.');
+      }
+  });
+
+});
+
 var user = {};
 var host = "http://107.170.116.24";
 var testUser = '{"username": "Test", "email": "user1@mail.com"}';
@@ -126,6 +142,10 @@ function createUser(){
   });
 }
 
+function success(data) {
+  alert( "Data Loaded: " + data );
+};
+
 function sendData(respons){
 
 	var result = getResult();
@@ -134,9 +154,7 @@ function sendData(respons){
 
 	//console.log(JSON.stringify(data));
 
-	function success(data) {
-		alert( "Data Loaded: " + data );
-	};
+
 
 	$.ajax({
 		type: "POST",
