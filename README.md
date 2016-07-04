@@ -28,7 +28,13 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
 * Fields:
     * email `*` _string_
     * username `*` _string_
-* example: `{"username": "curious", "email": "email@gmail.com"}`
+* example:
+```
+{
+  "username": "curious",
+  "email": "email@gmail.com"
+}
+```
 * record in DB:
 ```
 {
@@ -48,7 +54,24 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
 * Fields:
     * email `*` _string_
     * interests `*` _object_
-* example: `{"email":"mar@gmail.com","interests":[{"tech_id":1,"interest":1,"level":4},{"tech_id":2,"interest":3,"level":2}]}`
+* example:
+```
+{
+  "email": "email@gmail.com",
+  "interests": [
+    {
+      "tech_id": 1,
+      "interest": 1,
+      "level": 4
+    },
+    {
+      "tech_id": 2,
+      "interest": 3,
+      "level": 2
+    }
+  ]
+}
+```
 * record in DB:
 ```
 {
@@ -100,7 +123,19 @@ API service to store data about skills (Python 3.5, Flask, RethinkDB)
 * Fields:
     * email `*` _string_
     * interests `*` _object_
-* example: `{"email":"mar@gmail.com","interests":[{"tech_id":4,"interest":3,"level":2}]}`
+* example:
+```
+{
+  "email": "email@gmail.com",
+  "interests": [
+    {
+      "tech_id": 4,
+      "interest": 3,
+      "level": 2
+    }
+  ]
+}
+```
 * response codes:
     * `200` The record updated successfully
     * `400` The record does not exist

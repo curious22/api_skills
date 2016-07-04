@@ -2,12 +2,14 @@ from flask import Flask
 from flask import request, g, abort
 import rethinkdb as r
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
+from flask_cors import CORS, cross_origin
 
 import json
 import logging
 from configs import RDB_HOST, RDB_PORT, TODO_DB, codes
 
 application = Flask(__name__)
+CORS(application)
 
 FORMAT = u'[%(asctime)s] %(levelname)-8s %(message)s'
 logging.basicConfig(format=FORMAT, filename='error.log', level=logging.DEBUG)
