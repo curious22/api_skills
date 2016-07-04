@@ -28,6 +28,9 @@ dependencies:
 - zlib=1.2.8=0
 - pip:
   - backports.shutil-get-terminal-size==1.0.0
+  - click==6.6
+  - flask-cors==2.1.2
   - ipython-genutils==0.1.0
   - rethinkdb==2.3.0.post3
+  - six==1.10.0
 
