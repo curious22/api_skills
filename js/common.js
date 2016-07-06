@@ -104,13 +104,15 @@ $( "#send" ).click(function() {
 
 $( "#getStat" ).click(function() {
   $.ajax({
-      type: 'GET',
-      url: "http://107.170.116.24/statistics",
+      type: 'POST',
+      url: "http://107.170.116.24/registration",
       crossDomain: true,
       headers: {"Upgrade-Insecure-Requests":"1"},
       data: testUser,
       dataType: 'application/json',
-      success: sendData,
+      success: function (res) {
+        console.log(res);
+      },
       error: function (responseData, textStatus, errorThrown) {
           console.log('POST failed.');
       }
