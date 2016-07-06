@@ -97,6 +97,20 @@ $("#selects").html(htmlSelects);
 
 // get data from view
 
+$("#getStat").click(function () {
+  $.ajax({
+      type: 'GET',
+      url: "http://107.170.116.24/statistics",
+      crossDomain: true,
+      dataType: 'application/json',
+      success: function (responseData, textStatus, errorThrown) {
+          alert('Get ok.');
+      },
+      error: function (responseData, textStatus, errorThrown) {
+          alert('Get failed.');
+      }
+  });
+});
 
 $( "#send" ).click(function() {
 	createUser();
